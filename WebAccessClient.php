@@ -14,7 +14,7 @@ class WebAccessClient{
   public function apiGet($uri){
     $headers = array('auth_token: ' . $this->_auth_token);
     $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL,self::APIEND . $url);
+    curl_setopt($ch,CURLOPT_URL,self::APIEND . $uri);
     curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
     $output = json_decode(curl_exec($ch));
