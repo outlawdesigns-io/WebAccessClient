@@ -1,6 +1,6 @@
 <?php
 
-abstract class WebAccessClient{
+class WebAccessClient{
 
   const APIEND = 'http://api.outlawdesigns.io:9500/';
   const HOSTEND = 'host/';
