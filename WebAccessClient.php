@@ -52,6 +52,13 @@ class WebAccessClient{
       throw new \Exception($e->getMessage());
     }
   }
+  public function search($endpoint,$key,$value){
+    try{
+      return $this->apiGet($endpoint . "/search/" . $key . "/" . $value);
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
+    }
+  }
   public static function authenticate($username,$password){
     $headers = array('request_token: ' . $username,'password: ' . $password);
     $ch = curl_init();
