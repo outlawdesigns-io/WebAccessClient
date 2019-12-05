@@ -52,6 +52,20 @@ class WebAccessClient{
       throw new \Exception($e->getMessage());
     }
   }
+  public function getLoeMovieCounts(){
+    try{
+      return $this->apiGet(self::REQEND . 'movies');
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
+    }
+  }
+  public function getLoeEpisodeCounts(){
+    try{
+      return $this->apiGet(self::REQEND . 'movies');
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
+    }
+  }
   public function search($endpoint,$key,$value){
     try{
       return $this->apiGet($endpoint . "/search/" . $key . "/" . $value);
