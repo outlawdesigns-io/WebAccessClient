@@ -2,7 +2,7 @@
 
 class WebAccessClient{
 
-  const APIEND = 'http://api.outlawdesigns.io:9500/';
+  const APIEND = 'https://api.outlawdesigns.io:9500/';
   const HOSTEND = 'host/';
   const REQEND = 'request/';
 
