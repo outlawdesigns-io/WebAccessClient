@@ -9,7 +9,7 @@ class WebAccessClient{
   protected $_accessToken;
 
   public function __construct($apiUrl,$accessToken){
-    if($$apiUrl[strlen($apiUrl) - 1] != '/') $apiUrl .= '/';
+    if($apiUrl[strlen($apiUrl) - 1] != '/') $apiUrl .= '/';
     $this->_serviceUrl = $apiUrl;
     $this->_accessToken = $accessToken;
   }
