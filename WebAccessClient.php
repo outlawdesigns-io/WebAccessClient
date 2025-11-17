@@ -2,19 +2,21 @@
 
 class WebAccessClient{
 
-  const APIEND = 'https://api.outlawdesigns.io:9500/';
   const HOSTEND = 'host/';
   const REQEND = 'request/';
 
-  protected $_auth_token;
+  protected $_serviceUrl;
+  protected $_accessToken;
 
-  public function __construct($auth_token){
-    $this->_auth_token = $auth_token;
+  public function __construct($apiUrl,$accessToken){
+    if($apiUrl[strlen($apiUrl) - 1] != '/') $apiUrl .= '/';
+    $this->_serviceUrl = $apiUrl;
+    $this->_accessToken = $accessToken;
   }
   public function apiGet($uri){
-    $headers = array('auth_token: ' . $this->_auth_token);
+    $headers = array('Authorization: Bearer ' . $this->_accessToken);
     $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL,self::APIEND . $uri);
+    curl_setopt($ch,CURLOPT_URL,$this->_serviceUrl . $uri);
     curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
     $output = json_decode(curl_exec($ch));
@@ -25,59 +27,18 @@ class WebAccessClient{
     return $output;
   }
   public function getHost($id = null){
-    try{
-      return $this->apiGet(self::HOSTEND . $id);
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
+    return $this->apiGet(self::HOSTEND . $id);
   }
   public function getRequest($id = null){
-    try{
-      return $this->apiGet(self::REQEND . $id);
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
+    return $this->apiGet(self::REQEND . $id);
   }
   public function getDailyRequests($date = null){
-    try{
-      return $this->apiGet(self::REQEND . 'daily/' . $date);
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
+    return $this->apiGet(self::REQEND . 'daily/' . $date);
   }
   public function getDocTypeCounts($extension){
-    try{
-      return $this->apiGet(self::REQEND . 'extension/' . $extension);
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
+    return $this->apiGet(self::REQEND . 'extension/' . $extension);
   }
   public function search($endpoint,$key,$value){
-    try{
-      return $this->apiGet($endpoint . "/search/" . $key . "/" . $value);
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
-  }
-  public static function authenticate($username,$password){
-    $headers = array('request_token: ' . $username,'password: ' . $password);
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL,self::APIEND . "authenticate");
-    curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
-    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-    $output = json_decode(curl_exec($ch));
-    curl_close($ch);
-    if(isset($output->error)){
-      throw new \Exception($output->error);
-    }
-    return $output;
-  }
-  public static function verifyToken($token){
-    $obj = new self($token);
-    try{
-      return $obj->apiGet('verify');
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
+    return $this->apiGet($endpoint . "/search/" . $key . "/" . $value);
   }
 }
